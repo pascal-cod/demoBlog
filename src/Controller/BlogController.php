@@ -27,6 +27,9 @@ class BlogController extends AbstractController
      */
     public function home()
     {
-        return $this->render('blog/home.html.twig');
+        return $this->render('blog/home.html.twig', [
+            'title' => 'Bienvenue sur le blog SYMFONY',
+            'age' => 25
+        ]);
     }
 }
