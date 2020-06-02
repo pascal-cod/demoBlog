@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\ArticleType;
 use Doctrine\ORM\EntityManager;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -144,6 +145,10 @@ class BlogController extends AbstractController
                      ->add('image')                       
                      ->getForm(); // Termine le formulaire
 
+        // Permet de faire appel a la classe ArticleType permettant de générer le formulaire d'ajout/modification
+        // On précise que ce formulaire permettra de remplir un objet issu de la classe Article $article
+        $form = $this->createForm(ArticleType::class, $article);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) // Si le formulaire est soumit et est valide
@@ -166,7 +171,9 @@ class BlogController extends AbstractController
         }
 
         return $this->render('blog/create.html.twig', [
-            'formArticle' => $form->createView()
+            'formArticle' => $form->createView(),
+            'editMode' => $article->getId() !== null // on test si l'article possede un Id ou non, si l'article possede un Id cest une 
+            // modification, si il na pas d'ID c est une insertion
         ]);
     }
 
