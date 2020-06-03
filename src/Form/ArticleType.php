@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
             // on précise de quelle entité provient le champs 'catégorie'
             ->add('category', EntityType::class,[
                 'class' => Category::class,
-                'choice_label' => 'Categorie'
+                'choice_label' => 'title'
             ])
             ->add('content')
             ->add('image')
