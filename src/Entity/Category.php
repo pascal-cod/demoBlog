@@ -22,7 +22,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Title;
+    private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -46,12 +46,12 @@ class Category
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle(string $Title): self
+    public function setTitle(string $title): self
     {
-        $this->Title = $Title;
+        $this->title = $title;
 
         return $this;
     }
@@ -97,5 +97,10 @@ class Category
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }
