@@ -9,8 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
@@ -47,13 +49,22 @@ class SecurityController extends AbstractController
     /** 
      * @Route("/connexion", name="security_login")
      */
-    public function login()
-    {
-        return $this->render('security/login.html.twig');
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {   
+        // renvoi le message d'erreur en cas de mauvais identifiants au moment de la connexion
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // recupere le dernier username (email) que l internaute a saisie dans le formulaire de connexion
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig',[
+            'last_username' => $lastUsername,
+            'error' => $error
+        ]);
     }
 
-    /* 
-    * @Route("deconnexion", name="security_logout")
+   /**
+    * @Route("/deconnexion", name="security_logout")
     */
     public function logout()
     {

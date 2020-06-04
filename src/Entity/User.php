@@ -48,6 +48,11 @@ class User implements UserInterface
      */
     public $confirm_password;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $Roles = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -109,6 +114,14 @@ class User implements UserInterface
     // Cette méthode renvoi un tableau de chaine de caracteres ou sont stockés les roles accordés a l'utilisateur
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        // return ['ROLE_USER'];
+        return $this->Roles;
+    }
+
+    public function setRoles(array $Roles): self
+    {
+        $this->Roles = $Roles;
+
+        return $this;
     }
 }
